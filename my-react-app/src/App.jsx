@@ -8,21 +8,16 @@ function Square({ value, onSquareClick }) {
   );
 }
 
-
-
 export default function Board() {
   const [xIsNext, setXIsNext] = useState(true);
   const [squares, setSquares] = useState(Array(9).fill(null));
 
   function handleClick(i){
+    // IF THERE IS A WINNER OR IF A SQUARE IS FILLED
     if (calculateWinner(squares) || squares[i]) {
       return;
     }
     
-    if (squares[i]){
-      return;
-    }
-
     const nextSquares = squares.slice();
     if (xIsNext)
       {
@@ -70,17 +65,25 @@ export default function Board() {
 
 function calculateWinner(squares) {
   const lines = [
+    // ALL WINNING COMBINATIONS
+
+    // TOP, MIDDLE, BOTTOM
     [0, 1, 2],
     [3, 4, 5],
     [6, 7, 8],
+    // LEFT, MIDDLE, RIGHT COLUMN
     [0, 3, 6],
     [1, 4, 7],
     [2, 5, 8],
+    // DIAGONALS
     [0, 4, 8],
     [2, 4, 6],
   ];
+  // ITERATE THROUGH ALL OF COMBINATIONS
   for (let i = 0; i < lines.length; i++) {
+    // DESTRUCTURE ARRAY SO EACH GET VALUE OF EACH SQUARE SO WE CAN SO IF THEY ARE EQUAL TO EACH OTHER; EG IF WE ARE LOOKING AT LINES[5], A = 2, B = 5, C = 8
     const [a, b, c] = lines[i];
+    // IF SQUARES[A] IS FILLED AND A = B AND A = C
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
       return squares[a];
     }
